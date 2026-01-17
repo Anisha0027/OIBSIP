@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Professional Login Authentication</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  width:420px;
+  background:#111827;
+  padding:35px;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(0,0,0,0.6);
+  text-align:center;
+}
+
+.title{
+  font-size:28px;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+
+.subtitle{
+  color:#a5b4fc;
+  margin-bottom:25px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:none;
+  background:#020617;
+  color:white;
+  outline:none;
+  border:1px solid #1f2937;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+.link{
+  margin-top:18px;
+  color:#a5b4fc;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
+}
+
+#msg{
+  margin-top:8px;
+  color:#facc15;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+
+<div id="home">
+  <p class="title">Secure Authentication System</p>
+  <p class="subtitle">Internship Project - Login Authentication</p>
+
+  <button onclick="showRegister()">Create Account</button>
+  <br><br>
+  <button onclick="showLogin()">Login Account</button>
+</div>
+
+
+<div id="registerPage" class="hidden">
+  <p class="title">Create Account</p>
+  <p class="subtitle">Register to Get Started</p>
+
+  <input type="text" id="regUser" placeholder="Enter Username">
+  <input type="password" id="regPass" placeholder="Enter Password">
+
+  <button onclick="registerUser()">Register</button>
+
+  <p class="link" onclick="goHome()">⬅ Back to Home</p>
+</div>
+
+
+<div id="loginPage" class="hidden">
+  <p class="title">Login</p>
+  <p class="subtitle">Access Your Account</p>
+
+  <input type="text" id="logUser" placeholder="Enter Username">
+  <input type="password" id="logPass" placeholder="Enter Password">
+
+  <button onclick="loginUser()">Login</button>
+  <p id="msg"></p>
+
+  <p class="link" onclick="goHome()">⬅ Back to Home</p>
+</div>
+
+
+<div id="dashboard" class="hidden">
+  <p class="title">Welcome </p>
+  <p class="subtitle" id="welcome"></p>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+</div>
+
+
+<script>
+
+function showRegister(){
+  hideAll();
+  document.getElementById("registerPage").classList.remove("hidden");
+}
+
+function showLogin(){
+  hideAll();
+  document.getElementById("loginPage").classList.remove("hidden");
+}
+
+function goHome(){
+  hideAll();
+  document.getElementById("home").classList.remove("hidden");
+}
+
+function hideAll(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("registerPage").classList.add("hidden");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboard").classList.add("hidden");
+}
+
+
+function registerUser(){
+  let username = document.getElementById("regUser").value;
+  let password = document.getElementById("regPass").value;
+
+  if(username === "" || password === ""){
+    alert("Please enter username & password");
+    return;
+  }
+
+  let user = {username,password};
+  localStorage.setItem("user", JSON.stringify(user));
+
+  alert("Registration Successful!");
+  showLogin();
+}
+
+
+function loginUser(){
+  let username = document.getElementById("logUser").value;
+  let password = document.getElementById("logPass").value;
+  let storedUser = JSON.parse(localStorage.getItem("user"));
+
+  if(storedUser && storedUser.username === username && storedUser.password === password){
+    localStorage.setItem("loggedIn","true");
+    openDashboard();
+  }
+  else{
+    document.getElementById("msg").innerHTML = "Invalid Username or Password";
+  }
+}
+
+
+
+function openDashboard(){
+  hideAll();
+  document.getElementById("dashboard").classList.remove("hidden");
+
+  let user = JSON.parse(localStorage.getItem("user"));
+  document.getElementById("welcome").innerHTML = "Hello, " + user.username;
+}
+
+
+function logout(){
+  localStorage.removeItem("loggedIn");
+  alert("Logged Out Successfully");
+  goHome();
+}
+</script>
+
+</body>
+</html>

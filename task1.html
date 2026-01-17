@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            display: flex;
+            background-color: rgb(188, 218, 237);
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial;
+            
+        }
+        
+        .calc {
+            border: 4px solid rgb(22, 40, 77);
+            background-color:rgb(23, 58, 92);
+            padding: 10px;
+            width: 250px;
+        }
+
+        input {
+            width: 245px;
+            height: 40px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-align: right;
+            background-color:rgb(253, 255, 255);
+        }
+
+        button {
+            width: 45px;
+            height: 40px;
+            margin: 6px;
+            background-color: rgb(188, 218, 237);
+            font-size: 18px;
+        
+        }
+    </style>
+</head>
+<body>
+<div class="calc">
+    <input type="text" id="result">
+    <button onclick="clearBox()">C</button>
+    <button onclick="add('(')">(</button>
+    <button onclick="add(')')">)</button>
+    <button onclick="add('/')">/</button><br>
+
+    
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
+    <button onclick="add('*')">*</button><br>
+
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+    <button onclick="add('-')">-</button><br>
+
+    <button onclick="add('1')">1</button>
+    <button onclick="add('2')">2</button>
+    <button onclick="add('3')">3</button>
+    <button onclick="add('+')">+</button><br>
+
+    <button onclick="add('(-')">+/-</button>
+    <button onclick="add('0')">0</button>
+    <button onclick="add('.')">.</buttonn>
+    <button onclick="calculate()">=</button><br>
+    
+   
+</div>
+
+<script>
+    function add(value) {
+        document.getElementById("result").value += value;
+    }
+
+    function calculate() {
+        let x = document.getElementById("result").value;
+        document.getElementById("result").value = eval(x);
+    }
+
+    function clearBox() {
+        document.getElementById("result").value = "";
+    }
+</script>
+
+</body>
+</html>

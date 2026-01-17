@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List Web App</title>
+   <style>
+    body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e12222, #9e2061, #cc681c);
+    margin: 0;
+    padding: 20px;
+    color: white;
+}
+
+.app-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.main-container { 
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+
+.form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+    width: 500px;
+    height: 170px;
+}
+
+.form-container input,
+.form-container textarea {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.form-container button {
+    width: 98%;
+    padding: 10px;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.table-container {
+    background: transparent;
+    width: 550px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: rgba(0,0,0,0.4);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+tbody tr {
+    background: white;
+    color: black;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+   </style>
+</head>
+<body>
+
+<h2 class="app-title">To-Do WebApp</h2>
+
+<div class="main-container">
+
+    
+    <div class="form-container">
+        <input type="text" id="title" placeholder="Title" required>
+        <textarea id="description" placeholder="Description" required></textarea>
+        <button onclick="saveTask()">Save</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="taskTable">
+               
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script >
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function saveTask() {
+    let title = document.getElementById("title").value.trim();
+    let description = document.getElementById("description").value.trim();
+
+    if (title === "" || description === "") {
+        alert("Please fill all fields");
+        return;
+    }
+
+    tasks.push({ title, description });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+
+    displayTasks();
+}
+
+function displayTasks() {
+    let table = document.getElementById("taskTable");
+    table.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+        let row = `
+            <tr>
+                <td>${task.title}</td>
+                <td>${task.description}</td>
+                <td>
+                    <button class="delete-btn" onclick="deleteTask(${index})">X</button>
+                </td>
+            </tr>
+        `;
+        table.innerHTML += row;
+    });
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayTasks();
+}
+
+displayTasks();
+</script>
+</body>
+</html>
